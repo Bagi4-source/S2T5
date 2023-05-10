@@ -1,3 +1,3 @@
 <?php
-$a = mail("germa.bagdasaryan@mail.ru", "Регистрация", "Ваш логин: лавщфта");
+$a = mail("german.bagdasaryan@mail.ru", "Регистрация", "Ваш логин: лавщфта");
 print($a);
