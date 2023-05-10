@@ -29,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
     // TODO: Проверть есть ли такой логин и пароль в базе данных.
-    $login = $_POST['login'];
-    $password = $_POST['password'];
+    $login = 'German.bagdasaryan@mail.ru';
+    $password = '7a5fbff892921ea69bd2105279775f58';
     // Выдать сообщение об ошибках.
     try {
-        $stmt = $db->prepare("SELECT password from logins where login = ?");
-        $stmt->execute([$login]);
+        $stmt = $db->prepare("SELECT * from logins where login = ? and password = ?");
+        $stmt->execute([$login, md5($password)]);
         if (!$stmt) {
             print('Error : ' . $stmt->errorInfo());
         }
