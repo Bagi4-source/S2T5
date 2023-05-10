@@ -9,34 +9,34 @@ $user = 'u52803';
 $pass = '9294062';
 $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
-session_start();
-if (empty($_SESSION['login'])) {
-    session_destroy();
-} else {
-    try {
-        $stmt = $db->prepare("Select * from users where id = ?");
-        $stmt->execute([$_SESSION['uid']]);
-        if (!$stmt) {
-            print('Error : ' . $stmt->errorInfo());
-        }
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
-            setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
-            setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
-            setcookie('limbs_value', $row['limbs'], time() + 30 * 24 * 60 * 60);
-//            setcookie('abilities_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
-            setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
-            setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
-            setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
-        }
-    } catch (PDOException $e) {
-        print('Error : ' . $e->getMessage());
-        exit();
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    session_start();
+    if (empty($_SESSION['login'])) {
+        session_destroy();
+    } else {
+        try {
+            $stmt = $db->prepare("Select * from users where id = ?");
+            $stmt->execute([$_SESSION['uid']]);
+            if (!$stmt) {
+                print('Error : ' . $stmt->errorInfo());
+            }
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
+                setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
+                setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
+                setcookie('limbs_value', $row['limbs'], time() + 30 * 24 * 60 * 60);
+//            setcookie('abilities_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
+                setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
+                setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
+                setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
+            }
+        } catch (PDOException $e) {
+            print('Error : ' . $e->getMessage());
+            exit();
+        }
+    }
+
     $messages = array();
     if (!empty($_COOKIE['save'])) {
         setcookie('save', '', 100000);
