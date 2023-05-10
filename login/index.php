@@ -24,20 +24,49 @@ if (!empty($_SESSION['login'])) {
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    ?>
-
-    <form action="" method="post">
-        <input name="login"/>
-        <input name="pass"/>
-        <input type="submit" value="Войти"/>
-    </form>
-
-    <?php
-} // Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
-else {
+    $user = 'u52803';
+    $pass = '9294062';
+    $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
     // TODO: Проверть есть ли такой логин и пароль в базе данных.
+    $login = $_POST['login'];
+    $password = $_POST['password'];
     // Выдать сообщение об ошибках.
+    try {
+        $stmt = $db->prepare("SELECT password from logins where login = ?");
+        $stmt->execute([$login]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        print ($row);
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
+    include('form.php');
+} // Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
+else {
+    $user = 'u52803';
+    $pass = '9294062';
+    $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
+
+    // TODO: Проверть есть ли такой логин и пароль в базе данных.
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    // Выдать сообщение об ошибках.
+    try {
+        $stmt = $db->prepare("SELECT password from logins where login = ?");
+        $stmt->execute([$login]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        print ($row);
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
 
     // Если все ок, то авторизуем пользователя.
     $_SESSION['login'] = $_POST['login'];
