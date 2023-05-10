@@ -17,14 +17,15 @@ function resetCookie()
     setcookie('biography_value', '', 100000);
 }
 
+print_r($_SERVER['HTTP_REFERER']);
+exit();
+
 $user = 'u52803';
 $pass = '9294062';
 $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    print_r($_SERVER['HTTP_REFERER']);
-    exit();
     if (!empty($_SESSION['login'])) {
         try {
             $user = $db->prepare("Select * from users where id = ?");
