@@ -14,19 +14,19 @@ $mail->isSMTP();
 $mail->SMTPAuth = true;
 $mail->SMTPDebug = 0;
 
-$mail->Host = 'ssl://smtp.gmail.com';
+$mail->Host = 'smtp.rambler.ru';
 $mail->Port = 465;
-$mail->Username = 'serv9413@gmail.com';
-$mail->Password = 'germes27';
+$mail->Username = 'keitzaharova36757@rambler.ru';
+$mail->Password = 'adUZ742Qpfgu';
 
 // От кого
-$mail->setFrom('serv9413@gmail.com', 'Snipp.ru');
+$mail->setFrom('keitzaharova36757@rambler.ru', 'Snipp.ru');
 
 // Кому
 $mail->addAddress('german.bagdasaryan@mail.ru', 'Иван Петров');
 
 // Тема письма
-$mail->Subject = "Регистрация";
+$mail->Subject = "тестовое письмо";
 
 // Тело письма
 $body = '<p><strong>«Hello, world!» </strong></p>';
