@@ -8,6 +8,32 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
+<header>
+    <div class="header">
+        <?php
+        if (!empty($_COOKIE['login'])) {
+            print(sprintf('<div class="user">
+            <span class="login">
+                %s
+            </span>
+        </div>
+        <div class="buttons">
+            <a href="./logout">
+                <div class="log logout">Выйти</div>
+            </a>
+        </div>', $_COOKIE['login']));
+
+        } else {
+            print('<div class="buttons">
+            <a href="./login">
+                <div class="log login">Войти</div>
+            </a>
+        </div>');
+        }
+        ?>
+
+    </div>
+</header>
 <?php
 if (!empty($messages)) {
     print('<div id="messages">');
@@ -37,10 +63,12 @@ if (!empty($messages)) {
         <div class="form_radio">
             <span>Пол: </span>
 
-            <input id="radio-1" type="radio" name="gender" value="м" <?php if($values['gender']=='м') print 'checked'; ?>>
+            <input id="radio-1" type="radio" name="gender"
+                   value="м" <?php if ($values['gender'] == 'м') print 'checked'; ?>>
             <label for="radio-1">Мужской</label>
 
-            <input id="radio-2" type="radio" name="gender" value="ж" <?php if($values['gender']=='ж') print 'checked'; ?>>
+            <input id="radio-2" type="radio" name="gender"
+                   value="ж" <?php if ($values['gender'] == 'ж') print 'checked'; ?>>
             <label for="radio-2">Женский</label>
         </div>
 
@@ -72,13 +100,14 @@ if (!empty($messages)) {
             </select>
         </div>
         <textarea placeholder="Биография..." name="biography" rows="3">
-            <?php print $values['biography']?>
+            <?php print $values['biography'] ?>
         </textarea>
         <div class="checkbox">
             <input type="checkbox" class="custom-checkbox" id="check" name="checkbox"
                    value="1" <?php if ($errors['checkbox']) {
                 print 'class="error"';
-            } ?> <?php if($values['checkbox'] == 1 || $values['checkbox'] == 'on') print 'checked="checked"'?>" required>
+            } ?> <?php if ($values['checkbox'] == 1 || $values['checkbox'] == 'on') print 'checked="checked"' ?>"
+            required>
             <label for="check">согласен с политикой конфиденциальности</label>
         </div>
         <input type="submit" value="Отправить">
