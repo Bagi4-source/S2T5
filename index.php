@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     print('Error : ' . $relations->errorInfo());
                 }
                 $abilities = array();
-                while ($abilka = $abilities->fetch(PDO::FETCH_ASSOC)) {
+                while ($abilka = $relations->fetch(PDO::FETCH_ASSOC)) {
                     $abilities[] = $abilka['ability_id'];
                 }
                 print_r($abilities);
