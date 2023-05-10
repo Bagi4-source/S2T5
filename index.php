@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     $messages = array();
-    if (!empty($_COOKIE['save'])) {
+    if (!empty($_COOKIE['save']) and empty($_SESSION['login'])) {
         setcookie('save', '', 100000);
         setcookie('fio_value', '', 100000);
         setcookie('email_value', '', 100000);
@@ -188,23 +188,11 @@ if ($errors) {
     exit();
 }
 
-try {
-    $stmt = $db->prepare("INSERT INTO users SET name = ?, year = ?, biography = ?, email = ?, limbs = ?, gender = ?, checkbox = ?");
-    $stmt->execute([$_POST['fio'], $_POST['year'], $_POST['biography'], $_POST['email'], $_POST['limbs'], $_POST['gender'], 1]);
-    if (!$stmt) {
-        print('Error : ' . $stmt->errorInfo());
-    }
-} catch (PDOException $e) {
-    print('Error : ' . $e->getMessage());
-    exit();
-}
-
-$user_id = $db->lastInsertId();
-
-foreach ($_POST['abilities'] as $ability_id) {
+if (!empty($_SESSION['login'])){
+    // Обновляем данные
     try {
-        $stmt = $db->prepare("INSERT INTO relations SET user_id = ?, ability_id = ?");
-        $stmt->execute([$user_id, $ability_id]);
+        $stmt = $db->prepare("UPDATE users SET name = ?, year = ?, biography = ?, email = ?, limbs = ?, gender = ?, checkbox = ? WHERE id = ?");
+        $stmt->execute([$_POST['fio'], $_POST['year'], $_POST['biography'], $_POST['email'], $_POST['limbs'], $_POST['gender'], 1, $_SESSION['uid']]);
         if (!$stmt) {
             print('Error : ' . $stmt->errorInfo());
         }
@@ -212,24 +200,87 @@ foreach ($_POST['abilities'] as $ability_id) {
         print('Error : ' . $e->getMessage());
         exit();
     }
-}
-
-
-$password = md5("Удачи)" . $user_id . base64_encode($_POST['email']) . time());
-$login = $_POST['email'];
-
-try {
-    $stmt = $db->prepare("INSERT INTO logins SET user_id = ?, password = ?, login = ?");
-    $stmt->execute([$user_id, md5($password), $login]);
-    if (!$stmt) {
-        print('Error : ' . $stmt->errorInfo());
+    // Удаляем способности
+    try {
+        $stmt = $db->prepare("DELETE FROM relations WHERE user_id = ?");
+        $stmt->execute([$_SESSION['uid']]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
     }
-} catch (PDOException $e) {
-    print('Error : ' . $e->getMessage());
-    exit();
+    // Добавляем способности
+    foreach ($_POST['abilities'] as $ability_id) {
+        try {
+            $stmt = $db->prepare("INSERT INTO relations SET user_id = ?, ability_id = ?");
+            $stmt->execute([$_SESSION['uid'], $ability_id]);
+            if (!$stmt) {
+                print('Error : ' . $stmt->errorInfo());
+            }
+        } catch (PDOException $e) {
+            print('Error : ' . $e->getMessage());
+            exit();
+        }
+    }
+    // Обновляем почту для логина
+    try {
+        $stmt = $db->prepare("UPDATE logins SET login = ? WHERE user_id = ?");
+        $stmt->execute([$_POST['email'], $_SESSION['uid']]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
+
+} else {
+    // Добавляем данные пользователя
+    try {
+        $stmt = $db->prepare("INSERT INTO users SET name = ?, year = ?, biography = ?, email = ?, limbs = ?, gender = ?, checkbox = ?");
+        $stmt->execute([$_POST['fio'], $_POST['year'], $_POST['biography'], $_POST['email'], $_POST['limbs'], $_POST['gender'], 1]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
+
+    $user_id = $db->lastInsertId();
+    // Добавляем способности
+    foreach ($_POST['abilities'] as $ability_id) {
+        try {
+            $stmt = $db->prepare("INSERT INTO relations SET user_id = ?, ability_id = ?");
+            $stmt->execute([$user_id, $ability_id]);
+            if (!$stmt) {
+                print('Error : ' . $stmt->errorInfo());
+            }
+        } catch (PDOException $e) {
+            print('Error : ' . $e->getMessage());
+            exit();
+        }
+    }
+
+    // Создадим логин для пользователя
+    $login = $_POST['email'];
+    $password = md5("Удачи)" . $user_id . base64_encode($login) . time());
+
+    try {
+        $stmt = $db->prepare("INSERT INTO logins SET user_id = ?, password = ?, login = ?");
+        $stmt->execute([$user_id, md5($password), $login]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
+    require 'smtp.php';
+    sendLogin($login, $password);
 }
-require 'smtp.php';
-sendLogin($login, $password);
 setcookie('save', '1');
 
 header('Location: ./');
