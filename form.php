@@ -19,14 +19,14 @@
         </div>
         <div class="buttons">
             <img src="https://img.freepik.com/free-icon/user_318-159711.jpg" alt="user" width="50">
-            <a href="../logout">
+            <a href="/logout">
                 <div class="log logout">Выйти</div>
             </a>
         </div>', $_SESSION['login']));
 
         } else {
             print('<div class="buttons">
-            <a href="../login">
+            <a href="/login">
                 <div class="log login">Войти</div>
             </a>
         </div>');
