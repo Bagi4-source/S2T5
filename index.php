@@ -4,9 +4,36 @@
 header('Content-Type: text/html; charset=UTF-8');
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
+
+$user = 'u52803';
+$pass = '9294062';
+$db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
+
 session_start();
 if (empty($_SESSION['login'])) {
     session_destroy();
+} else {
+    try {
+        $stmt = $db->prepare("Select * from users where id = ?");
+        $stmt->execute([$_SESSION['uid']]);
+        if (!$stmt) {
+            print('Error : ' . $stmt->errorInfo());
+        }
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
+            setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
+            setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
+            setcookie('limbs_value', $row['limbs'], time() + 30 * 24 * 60 * 60);
+//            setcookie('abilities_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
+            setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
+            setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
+            setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
+        }
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -79,9 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     exit();
 }
 // POST
-$user = 'u52803';
-$pass = '9294062';
-$db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
 $abilities = [];
 $abilities_query = $db->query("SELECT id FROM abilities;");
