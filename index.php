@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 while ($abilka = $user->fetch(PDO::FETCH_ASSOC)) {
                     $abilities[] = $abilka['ability_id'];
                 }
+                print_r($abilities);
+                exit();
                 setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
                 setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
                 setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
