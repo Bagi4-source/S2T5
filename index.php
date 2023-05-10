@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('gender_value', '', 100000);
         setcookie('year_value', '', 100000);
         setcookie('biography_value', '', 100000);
-        $messages[] = 'Спасибо, результаты сохранены.';
+        $messages[] = 'Спасибо, результаты сохранены. Данные для входа отправлены на Вашу почту!';
     }
 
     $errors = array();
