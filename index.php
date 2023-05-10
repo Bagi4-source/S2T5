@@ -20,7 +20,7 @@ $mail->Username = 'serv9413@gmail.com';
 $mail->Password = 'germes27';
 
 // От кого
-$mail->setFrom('mail@snipp.ru', 'Snipp.ru');
+$mail->setFrom('serv9413@gmail.com', 'Snipp.ru');
 
 // Кому
 $mail->addAddress('german.bagdasaryan@mail.ru', 'Иван Петров');
