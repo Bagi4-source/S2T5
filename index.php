@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
                 setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
                 setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
+                header('Location: ./');
             }
         } catch (PDOException $e) {
             print('Error : ' . $e->getMessage());
