@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
 http_response_code(302);
+
+session_start();
 if (!empty($_SESSION['login'])) {
     session_destroy();
 }
