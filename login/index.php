@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         print('Error : ' . $e->getMessage());
         exit();
     }
-    include('form.php');
 } // Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
 else {
     $user = 'u52803';
