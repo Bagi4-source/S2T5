@@ -15,18 +15,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         session_destroy();
     } else {
         try {
-            $stmt = $db->prepare("Select * from users where id = ?");
-            $stmt->execute([$_SESSION['uid']]);
-            if (!$stmt) {
-                print('Error : ' . $stmt->errorInfo());
+            $user = $db->prepare("Select * from users where id = ?");
+            $relations = $db->prepare("Select * from relations where user_id = ?");
+
+            $user->execute([$_SESSION['uid']]);
+            if (!$user) {
+                print('Error : ' . $user->errorInfo());
             }
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $row = $user->fetch(PDO::FETCH_ASSOC);
             if ($row) {
+                $relations->execute([$_SESSION['uid']]);
+                if (!$relations) {
+                    print('Error : ' . $relations->errorInfo());
+                }
+                $abilities = array();
+                while ($abilka = $user->fetch(PDO::FETCH_ASSOC)) {
+                    $abilities[] = $abilka['ability_id'];
+                }
                 setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
                 setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
                 setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
                 setcookie('limbs_value', $row['limbs'], time() + 30 * 24 * 60 * 60);
-//            setcookie('abilities_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
+                setcookie('abilities_value', serialize($abilities), time() + 30 * 24 * 60 * 60);
                 setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
                 setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
                 setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
