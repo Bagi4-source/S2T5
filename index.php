@@ -5,6 +5,9 @@ header('Content-Type: text/html; charset=UTF-8');
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 session_start();
+if (empty($_SESSION['login'])) {
+    session_destroy();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $messages = array();
