@@ -50,13 +50,8 @@ if (!empty($messages)) {
     <div class="circle"></div>
     <div class="form-inner">
         <h3>Отправить заявку</h3>
-        <input type="email" placeholder="Login" name="login" <?php if ($errors['login']) {
-            print 'class="error"';
-        } ?> required>
-        <input type="password" placeholder="Password" name="password" <?php if ($errors['password']) {
-            print 'class="error"';
-        } ?> required>
-
+        <input type="email" placeholder="Login" name="login" required>
+        <input type="password" placeholder="Password" name="password" required>
         <input type="submit" value="Войти">
 
     </div>
