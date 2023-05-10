@@ -7,6 +7,36 @@ body {
     font-family: 'Roboto', sans-serif !important;
 }
 
+header {
+    background: #ffffffb8;
+}
+
+.header {
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    align-content: center;
+    max-width: 960px;
+}
+
+.log {
+    background: #f69a73;
+    border-bottom: 4px solid #d87d56;
+    color: white;
+    font-size: 14px;
+    display: block;
+    width: 120px;
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    line-height: 40px;
+    border-radius: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
 .decor {
     position: relative;
     max-width: 450px;
