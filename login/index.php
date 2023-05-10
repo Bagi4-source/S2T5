@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             print('Error : ' . $stmt->errorInfo());
         }
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        print ($row);
+        print ($row['login']);
     } catch (PDOException $e) {
         print('Error : ' . $e->getMessage());
         exit();
