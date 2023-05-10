@@ -9,11 +9,9 @@ $user = 'u52803';
 $pass = '9294062';
 $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
+session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    session_start();
-    if (empty($_SESSION['login'])) {
-        session_destroy();
-    } else {
+    if (!empty($_SESSION['login'])) {
         try {
             $user = $db->prepare("Select * from users where id = ?");
             $relations = $db->prepare("Select * from relations where user_id = ?");
@@ -188,7 +186,7 @@ if ($errors) {
     exit();
 }
 
-if (!empty($_SESSION['login'])){
+if (!empty($_SESSION['login'])) {
     // Обновляем данные
     try {
         $stmt = $db->prepare("UPDATE users SET name = ?, year = ?, biography = ?, email = ?, limbs = ?, gender = ?, checkbox = ? WHERE id = ?");
