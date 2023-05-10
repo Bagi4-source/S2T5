@@ -16,8 +16,8 @@ $mail->SMTPDebug = 0;
 
 $mail->Host = 'ssl://smtp.gmail.com';
 $mail->Port = 465;
-$mail->Username = 'nubasik331@gmail.com';
-$mail->Password = 'NubikMain';
+$mail->Username = 'serv9413@gmail.com';
+$mail->Password = 'germes27';
 
 // От кого
 $mail->setFrom('mail@snipp.ru', 'Snipp.ru');
