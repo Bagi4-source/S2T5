@@ -11,51 +11,6 @@ $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PER
 
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $values = array();
-    if (!empty($_SESSION['login'])) {
-        try {
-            $user = $db->prepare("Select * from users where id = ?");
-            $relations = $db->prepare("Select * from relations where user_id = ?");
-
-            $user->execute([$_SESSION['uid']]);
-            if (!$user) {
-                print('Error : ' . $user->errorInfo());
-            }
-            $row = $user->fetch(PDO::FETCH_ASSOC);
-            if ($row) {
-                $relations->execute([$_SESSION['uid']]);
-                if (!$relations) {
-                    print('Error : ' . $relations->errorInfo());
-                }
-                $abilki = array();
-                while ($abilka = $relations->fetch(PDO::FETCH_ASSOC)) {
-                    $abilki[] = $abilka['ability_id'];
-                }
-//                setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
-//                setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
-//                setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
-//                setcookie('limbs_value', $row['limbs'], time() + 30 * 24 * 60 * 60);
-//                setcookie('abilities_value', serialize($abilki), time() + 30 * 24 * 60 * 60);
-//                setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
-//                setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
-//                setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
-                $values['fio'] = $row['name'];
-                $values['email'] = $row['email'];
-                $values['checkbox'] = $row['checkbox'];
-                $values['abilities'] = $abilki;
-                $values['limbs'] = $row['limbs'];
-                $values['gender'] = $row['gender'];
-                $values['year'] = $row['year'];
-                $values['biography'] = $row['biography'];
-
-
-            }
-        } catch (PDOException $e) {
-            print('Error : ' . $e->getMessage());
-            exit();
-        }
-    }
-
     $messages = array();
     if (!empty($_COOKIE['save'])) {
         setcookie('save', '', 100000);
@@ -110,15 +65,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $messages[] = '<div class="error">Заполните год рождения!</div>';
     }
 
-    $values['fio'] = empty($_COOKIE['fio_value']) ? '' : $_COOKIE['fio_value'];
-    $values['email'] = empty($_COOKIE['email_value']) ? '' : $_COOKIE['email_value'];
-    $values['checkbox'] = empty($_COOKIE['checkbox_value']) ? '' : $_COOKIE['checkbox_value'];
-    $values['abilities'] = empty($_COOKIE['abilities_value']) ? '' : unserialize($_COOKIE['abilities_value']);
-    $values['limbs'] = empty($_COOKIE['limbs_value']) ? '' : $_COOKIE['limbs_value'];
-    $values['gender'] = empty($_COOKIE['gender_value']) ? '' : $_COOKIE['gender_value'];
-    $values['year'] = empty($_COOKIE['year_value']) ? '' : $_COOKIE['year_value'];
-    $values['biography'] = empty($_COOKIE['biography_value']) ? '' : $_COOKIE['biography_value'];
+    $values = array();
 
+    if (!empty($_SESSION['login'])) {
+        try {
+            $user = $db->prepare("Select * from users where id = ?");
+            $relations = $db->prepare("Select * from relations where user_id = ?");
+
+            $user->execute([$_SESSION['uid']]);
+            if (!$user) {
+                print('Error : ' . $user->errorInfo());
+            }
+            $row = $user->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                $relations->execute([$_SESSION['uid']]);
+                if (!$relations) {
+                    print('Error : ' . $relations->errorInfo());
+                }
+                $abilki = array();
+                while ($abilka = $relations->fetch(PDO::FETCH_ASSOC)) {
+                    $abilki[] = $abilka['ability_id'];
+                }
+//                setcookie('fio_value', $row['name'], time() + 30 * 24 * 60 * 60);
+//                setcookie('email_value', $row['email'], time() + 30 * 24 * 60 * 60);
+//                setcookie('checkbox_value', $row['checkbox'], time() + 30 * 24 * 60 * 60);
+//                setcookie('limbs_value', $row['limbs'], time() + 30 * 24 * 60 * 60);
+//                setcookie('abilities_value', serialize($abilki), time() + 30 * 24 * 60 * 60);
+//                setcookie('gender_value', $row['gender'], time() + 30 * 24 * 60 * 60);
+//                setcookie('year_value', $row['year'], time() + 30 * 24 * 60 * 60);
+//                setcookie('biography_value', $row['biography'], time() + 30 * 24 * 60 * 60);
+                $values['fio'] = $row['name'];
+                $values['email'] = $row['email'];
+                $values['checkbox'] = $row['checkbox'];
+                $values['abilities'] = $abilki;
+                $values['limbs'] = $row['limbs'];
+                $values['gender'] = $row['gender'];
+                $values['year'] = $row['year'];
+                $values['biography'] = $row['biography'];
+
+
+            }
+        } catch (PDOException $e) {
+            print('Error : ' . $e->getMessage());
+            exit();
+        }
+    } else {
+        $values['fio'] = empty($_COOKIE['fio_value']) ? '' : $_COOKIE['fio_value'];
+        $values['email'] = empty($_COOKIE['email_value']) ? '' : $_COOKIE['email_value'];
+        $values['checkbox'] = empty($_COOKIE['checkbox_value']) ? '' : $_COOKIE['checkbox_value'];
+        $values['abilities'] = empty($_COOKIE['abilities_value']) ? '' : unserialize($_COOKIE['abilities_value']);
+        $values['limbs'] = empty($_COOKIE['limbs_value']) ? '' : $_COOKIE['limbs_value'];
+        $values['gender'] = empty($_COOKIE['gender_value']) ? '' : $_COOKIE['gender_value'];
+        $values['year'] = empty($_COOKIE['year_value']) ? '' : $_COOKIE['year_value'];
+        $values['biography'] = empty($_COOKIE['biography_value']) ? '' : $_COOKIE['biography_value'];
+    }
 
     include('form.php');
     include('modal.php');
