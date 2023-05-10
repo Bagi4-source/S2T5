@@ -14,7 +14,7 @@ $mail->isSMTP();
 $mail->SMTPAuth = true;
 $mail->SMTPDebug = 0;
 
-$mail->Host = 'smtp.rambler.ru';
+$mail->Host = 'ssl://smtp.rambler.ru';
 $mail->Port = 465;
 $mail->Username = 'keitzaharova36757@rambler.ru';
 $mail->Password = 'adUZ742Qpfgu';
