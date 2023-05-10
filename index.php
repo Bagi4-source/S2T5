@@ -182,7 +182,7 @@ $login = $_POST['email'];
 
 try {
     $stmt = $db->prepare("INSERT INTO logins SET user_id = ?, password = ?, login = ?");
-    $stmt->execute([$user_id, md5($password), $_POST['biography'], $login]);
+    $stmt->execute([$user_id, md5($password), $login]);
     if (!$stmt) {
         print('Error : ' . $stmt->errorInfo());
     }
@@ -190,7 +190,7 @@ try {
     print('Error : ' . $e->getMessage());
     exit();
 }
-
+require 'smtp.php';
 sendLogin($login, $password);
 setcookie('save', '1');
 
