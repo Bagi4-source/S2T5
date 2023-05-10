@@ -24,27 +24,12 @@ if (!empty($_SESSION['login'])) {
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $user = 'u52803';
-    $pass = '9294062';
-    $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
-
-    // TODO: Проверть есть ли такой логин и пароль в базе данных.
-    $login = 'German.bagdasaryan@mail.ru';
-    $password = '7a5fbff892921ea69bd2105279775f58';
-    // Выдать сообщение об ошибках.
-    try {
-        $stmt = $db->prepare("SELECT * from logins where login = ? and password = ?");
-        $stmt->execute([$login, md5($password)]);
-        if (!$stmt) {
-            print('Error : ' . $stmt->errorInfo());
-        }
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$row)
-            print ("row: ");
-    } catch (PDOException $e) {
-        print('Error : ' . $e->getMessage());
-        exit();
+    $messages = array();
+    if (!empty($_COOKIE['login_error'])) {
+        setcookie('login_error', '', 100000);
+        $messages[] = '<div class="error">Неверный логин или пароль!</div>';
     }
+    include "form.php";
 } // Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
 else {
     $user = 'u52803';
@@ -56,22 +41,27 @@ else {
     $password = $_POST['password'];
     // Выдать сообщение об ошибках.
     try {
-        $stmt = $db->prepare("SELECT password from logins where login = ?");
-        $stmt->execute([$login]);
+        $stmt = $db->prepare("SELECT * from logins where login = ? and password = ?");
+        $stmt->execute([$login, md5($password)]);
         if (!$stmt) {
             print('Error : ' . $stmt->errorInfo());
         }
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        print ($row);
+        if (!$row) {
+            setcookie('login_error', 1, time() + 30 * 24 * 60 * 60);
+            header('Location: ./');
+        }
+        $id = $row['user_id'];
+
     } catch (PDOException $e) {
         print('Error : ' . $e->getMessage());
         exit();
     }
 
     // Если все ок, то авторизуем пользователя.
-    $_SESSION['login'] = $_POST['login'];
+    $_SESSION['login'] = $login;
     // Записываем ID пользователя.
-    $_SESSION['uid'] = 123;
+    $_SESSION['uid'] = $id;
 
     // Делаем перенаправление.
     header('Location: ./');
