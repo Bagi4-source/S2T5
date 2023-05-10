@@ -5,7 +5,7 @@ require './phpMailer/Exception.php';
 
 // Для более ранних версий PHPMailer
 //require_once '/PHPMailer/PHPMailerAutoload.php';
-function sendMessage($body)
+function sendMessage($email, $body)
 {
     $mail = new PHPMailer\PHPMailer\PHPMailer;
     $mail->CharSet = 'UTF-8';
@@ -24,7 +24,7 @@ function sendMessage($body)
     $mail->setFrom('keitzaharova36757@rambler.ru', 'Bagi4');
 
 // Кому
-    $mail->addAddress('german.bagdasaryan@mail.ru');
+    $mail->addAddress($email);
 
 // Тема письма
     $mail->Subject = "Регистрация";
@@ -36,10 +36,10 @@ function sendMessage($body)
 
 }
 
-function sendLogin($login, $password)
+function sendLogin($email, $password)
 {
     $regText = sprintf('<p><strong>Вы успешно зарегистрировались!</strong></p>
 <p>Логин: %s</p>
-<p>Пароль: %s</p>', $login, $password);
-    sendMessage($regText);
+<p>Пароль: %s</p>', $email, $password);
+    sendMessage($email, $regText);
 }
