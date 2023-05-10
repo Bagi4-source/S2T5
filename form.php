@@ -13,21 +13,21 @@
         <?php
         if (!empty($_SESSION['login'])) {
             print(sprintf('<div class="user">
+            <img src="https://img.freepik.com/free-icon/user_318-159711.jpg" alt="user" width="45">
             <span class="login">
                 %s
             </span>
         </div>
         <div class="buttons">
-            <img src="https://img.freepik.com/free-icon/user_318-159711.jpg" alt="user" width="50">
             <a href="./logout">
-                <div class="log logout">Выйти</div>
+                <div class="log">Выйти</div>
             </a>
         </div>', $_SESSION['login']));
 
         } else {
             print('<div class="buttons">
             <a href="./login">
-                <div class="log login">Войти</div>
+                <div class="log">Войти</div>
             </a>
         </div>');
         }
