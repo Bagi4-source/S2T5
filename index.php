@@ -17,8 +17,11 @@ function resetCookie()
     setcookie('biography_value', '', 100000);
 }
 
-print_r($_SERVER['HTTP_REFERER']);
-exit();
+if (isset($_SERVER['HTTP_REFERER'])) {
+    print_r($_SERVER['HTTP_REFERER']);
+    exit();
+}
+
 
 $user = 'u52803';
 $pass = '9294062';
