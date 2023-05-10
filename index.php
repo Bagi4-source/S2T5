@@ -1,15 +1,12 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require_once '/PHPMailer/phpMailer/Exception.php';
-require_once '/PHPMailer/phpMailer/PHPMailer.php';
-require_once '/PHPMailer/phpMailer/SMTP.php';
+require 'phpmailer/PHPMailer.php';
+require 'phpmailer/SMTP.php';
+require 'phpmailer/Exception.php';
 
 // Для более ранних версий PHPMailer
 //require_once '/PHPMailer/PHPMailerAutoload.php';
 
-$mail = new PHPMailer;
+$mail = new PHPMailer\PHPMailer\PHPMailer;
 $mail->CharSet = 'UTF-8';
 
 // Настройки SMTP
