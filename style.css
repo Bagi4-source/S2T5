@@ -23,6 +23,11 @@ header {
     max-width: 960px;
 }
 
+.user {
+    margin: 0 10px;
+}
+
+
 .log {
     background: #f69a73;
     border-bottom: 4px solid #d87d56;
@@ -37,6 +42,7 @@ header {
     border-radius: 20px;
     font-family: 'Roboto', sans-serif;
 }
+
 .header a {
     text-decoration: none;
 }
