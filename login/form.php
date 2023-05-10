@@ -25,7 +25,7 @@
         </div>', $_SESSION['login']));
 
         } else {
-            print('<div class="buttons">
+            print('<div class="user"></div><div class="buttons">
             <a href="../login">
                 <div class="log">Войти</div>
             </a>
