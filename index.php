@@ -14,15 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $messages = array();
     if (!empty($_COOKIE['save'])) {
         setcookie('save', '', 100000);
+        setcookie('fio_value', '', 100000);
+        setcookie('email_value', '', 100000);
+        setcookie('checkbox_value', '', 100000);
+        setcookie('limbs_value', '', 100000);
+        setcookie('abilities_value', '', 100000);
+        setcookie('gender_value', '', 100000);
+        setcookie('year_value', '', 100000);
+        setcookie('biography_value', '', 100000);
         if (!empty($_SESSION['login'])) {
-            setcookie('fio_value', '', 100000);
-            setcookie('email_value', '', 100000);
-            setcookie('checkbox_value', '', 100000);
-            setcookie('limbs_value', '', 100000);
-            setcookie('abilities_value', '', 100000);
-            setcookie('gender_value', '', 100000);
-            setcookie('year_value', '', 100000);
-            setcookie('biography_value', '', 100000);
             $messages[] = 'Спасибо, результаты сохранены.';
         } else
             $messages[] = 'Спасибо, результаты сохранены. Данные для входа отправлены на Вашу почту!';
