@@ -5,6 +5,18 @@ header('Content-Type: text/html; charset=UTF-8');
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 
+function resetCookie()
+{
+    setcookie('fio_value', '', 100000);
+    setcookie('email_value', '', 100000);
+    setcookie('checkbox_value', '', 100000);
+    setcookie('limbs_value', '', 100000);
+    setcookie('abilities_value', '', 100000);
+    setcookie('gender_value', '', 100000);
+    setcookie('year_value', '', 100000);
+    setcookie('biography_value', '', 100000);
+}
+
 $user = 'u52803';
 $pass = '9294062';
 $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
@@ -48,14 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $messages = array();
     if (!empty($_COOKIE['save']) and empty($_SESSION['login'])) {
         setcookie('save', '', 100000);
-        setcookie('fio_value', '', 100000);
-        setcookie('email_value', '', 100000);
-        setcookie('checkbox_value', '', 100000);
-        setcookie('limbs_value', '', 100000);
-        setcookie('abilities_value', '', 100000);
-        setcookie('gender_value', '', 100000);
-        setcookie('year_value', '', 100000);
-        setcookie('biography_value', '', 100000);
+        resetCookie();
         $messages[] = 'Спасибо, результаты сохранены. Данные для входа отправлены на Вашу почту!';
     }
 
