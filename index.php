@@ -23,6 +23,8 @@ $db = new PDO('mysql:host=localhost;dbname=u52803', $user, $pass, [PDO::ATTR_PER
 
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    print_r($_SERVER['HTTP_REFERER']);
+    exit();
     if (!empty($_SESSION['login'])) {
         try {
             $user = $db->prepare("Select * from users where id = ?");
