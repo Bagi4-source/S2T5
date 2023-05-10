@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once '/PHPMailer/src/Exception.php';
-require_once '/PHPMailer/src/PHPMailer.php';
-require_once '/PHPMailer/src/SMTP.php';
+require_once '/PHPMailer/phpMailer/Exception.php';
+require_once '/PHPMailer/phpMailer/PHPMailer.php';
+require_once '/PHPMailer/phpMailer/SMTP.php';
 
 // Для более ранних версий PHPMailer
 //require_once '/PHPMailer/PHPMailerAutoload.php';
