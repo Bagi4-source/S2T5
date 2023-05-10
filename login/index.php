@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             print('Error : ' . $stmt->errorInfo());
         }
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        print ($row);
+        if (!$row)
+            print ("row: ");
     } catch (PDOException $e) {
         print('Error : ' . $e->getMessage());
         exit();
