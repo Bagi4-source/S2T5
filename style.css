@@ -12,6 +12,7 @@ header {
 }
 
 .header {
+    margin: auto;
     height: 80px;
     display: flex;
     flex-direction: row;
@@ -35,6 +36,9 @@ header {
     line-height: 40px;
     border-radius: 20px;
     font-family: 'Roboto', sans-serif;
+}
+.header a {
+    text-decoration: none;
 }
 
 .decor {
