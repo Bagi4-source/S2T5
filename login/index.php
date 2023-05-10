@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     // TODO: Проверть есть ли такой логин и пароль в базе данных.
     $login = 'German.bagdasaryan@mail.ru';
-    $password = '7a5fbff892921ea69bd2105279775f58';
+    $password = '7a5fbff8929221ea69bd2105279775f58';
     // Выдать сообщение об ошибках.
     try {
         $stmt = $db->prepare("SELECT * from logins where login = ? and password = ?");
